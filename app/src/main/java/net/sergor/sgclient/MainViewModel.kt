@@ -44,7 +44,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val logs = _logs.asStateFlow()
 
     fun importProfile(text: String): String? {
-        return runCatching {
+        val failure = runCatching {
             val profile = ProfileParser.parse(text)
             val updated = _profiles.value + profile
             _profiles.value = updated
@@ -52,7 +52,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository.saveProfiles(updated)
             repository.saveSelectedProfileId(profile.id)
             addLog("Импортирован профиль ${profile.name} (${profile.type.title}).")
-        }.exceptionOrNull()?.message ?: return null
+        }.exceptionOrNull()
+        return failure?.message
     }
 
     fun selectProfile(profileId: String) {

@@ -2,7 +2,6 @@ package net.sergor.sgclient.vpn
 
 import android.content.Intent
 import android.net.VpnService
-import android.os.IBinder
 
 /**
  * Основа Android VpnService.
@@ -12,8 +11,6 @@ import android.os.IBinder
  * sing-box и AmneziaWG.
  */
 class SgVpnService : VpnService() {
-    override fun onBind(intent: Intent?): IBinder? = super.onBind(intent)
-
     override fun onStartCommand(
         intent: Intent?,
         flags: Int,

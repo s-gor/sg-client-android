@@ -262,14 +262,14 @@ SG Mobile хранит профили отдельно от подписок: м
 <div align="center">
 <table>
 <tr>
-<td align="center"><b>Главная</b><br><sub>VPN state, профиль, задержка и быстрые действия</sub></td>
-<td align="center"><b>Маршрутизация</b><br><sub>VPN / Direct / Block и пользовательская policy</sub></td>
-<td align="center"><b>О приложении</b><br><sub>Версия, архитектура и runtime</sub></td>
+<td align="center"><b>Главная — подключено</b><br><sub>VPN state, профиль, задержка и быстрые действия</sub></td>
+<td align="center"><b>Главная — отключено</b><br><sub>Стартовый экран клиента</sub></td>
+<td align="center"><b>Подписки и серверы</b><br><sub>Проверка и выбор сервера</sub></td>
 </tr>
 <tr>
-<td><img src="docs/screenshots/01-home-connected.jpg" width="260" alt="SG Mobile — главная"></td>
-<td><img src="docs/screenshots/02-routing.jpg" width="260" alt="SG Mobile — маршрутизация"></td>
-<td><img src="docs/screenshots/03-about.jpg" width="260" alt="SG Mobile — о приложении"></td>
+<td><a href="docs/screenshots/01-home-connected.webp"><img src="docs/screenshots/01-home-connected.webp" width="260" alt="SG Mobile — главная, подключено"></a></td>
+<td><a href="docs/screenshots/02-home-disconnected.webp"><img src="docs/screenshots/02-home-disconnected.webp" width="260" alt="SG Mobile — главная, отключено"></a></td>
+<td><a href="docs/screenshots/03-subscriptions.webp"><img src="docs/screenshots/03-subscriptions.webp" width="260" alt="SG Mobile — подписки и серверы"></a></td>
 </tr>
 </table>
 </div>
@@ -289,15 +289,12 @@ SG Mobile хранит профили отдельно от подписок: м
 В 068 собраны в один пакет несколько важных исправлений:
 
 - исправлена навигация «Выбрать профиль»;
-- языковой selector упрощён до **Русский / English**;
-- доработана локализация подписок и фильтров;
-- список серверов очищен от лишних quick chips и protocol badges;
-- удаление активной подписки стало явной операцией с disconnect и progress;
-- экран сетевых компонентов сделан информационным — без ложного ощущения, что отдельное ядро можно обновить из приложения;
-- сохранена постоянная подпись SG Mobile;
-- исправлен преждевременный захват Android VPN slot при простом открытии приложения.
-
-SG Mobile активно развивается; отдельные элементы UI могут меняться между development-сборками.
+- языковой selector упрощён;
+- доработана локализация;
+- переработан UX подписок и серверов;
+- улучшено удаление активной подписки;
+- экран ядер превращён в информационный экран версий;
+- исправлено преждевременное занятие Android VPN slot.
 
 ---
 
@@ -305,86 +302,54 @@ SG Mobile активно развивается; отдельные элемен
 
 | Компонент | Версия |
 |---|---:|
-| **libXray** | 26.7.28 |
-| **Hysteria2** | 2.12.1 |
-| **sing-box** | 1.14.0-beta.14 |
-| **Mieru** | 3.35.0 |
-| **Mihomo** | 1.19.29 |
-| **AmneziaWG Android** | 3.1.20260814 |
-
-Экран в приложении показывает установленные версии компонентов **только как информацию**. Отдельное runtime-ядро не подменяется произвольно после установки APK.
-
-Лицензии сторонних компонентов и их происхождение описаны в [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+| libXray | 26.7.28 |
+| Hysteria2 | 2.12.1 |
+| sing-box | 1.14.0-beta.14 |
+| Mieru | 3.35.0 |
+| Mihomo | 1.19.29 |
+| AmneziaWG Android | 3.1.20260814 |
 
 ---
 
-## Android baseline
+## Сборка
 
-- **Android:** 8.0+ / API 26+
-- **Target SDK:** 36
-- **ABI:** arm64-v8a
-- **UI:** Jetpack Compose / Material 3
-- **JDK для сборки:** 17
-- **Android Build Tools:** 36.0.0
-- **NDK:** 29
-- **Gradle:** 9.4.1
+Проект собирается под Windows с локальным Android toolchain.
 
-SG Mobile использует настоящий Android `VpnService` / TUN и соответствующие native/runtime компоненты для разных протокольных семейств.
+Базовые требования:
+
+- JDK 17;
+- Android SDK 36;
+- Android Build Tools 36.0.0;
+- NDK 29;
+- Gradle 9.4.1.
+
+Release-сборка использует R8 и resource shrinking. Сетевые runtime-компоненты проходят проверку перед упаковкой APK.
+
+Начиная с ветки SG Mobile 067 используется **постоянная подпись SG Mobile** вместо автоматически создаваемого Android `debug.keystore`. Приватный signing key не хранится в репозитории.
 
 ---
 
-## Сборка и подпись
+## Безопасность проекта
 
-Release-процесс рассчитан на воспроизводимую локальную Windows-сборку.
-
-Сборщик:
-
-- проверяет локальный Android toolchain;
-- проверяет runtime-компоненты перед упаковкой;
-- собирает APK с R8/resource shrinking;
-- использует постоянную подпись SG Mobile.
-
-Начиная с линии 067 release APK **не зависит от пользовательского Android `debug.keystore`**.
-
-Приватный signing key не хранится в GitHub-репозитории. Если постоянный ключ отсутствует, нормальный release workflow должен остановиться, а не молча создать новую идентичность приложения.
+SG Mobile не должен молча подменять сетевые движки или создавать новый ключ подписи при его потере. Для release-процесса используются фиксированные версии, контрольные суммы и отдельная постоянная подпись приложения.
 
 ---
 
 ## Экосистема SG
 
-SG Mobile рассчитан и на обычные сторонние подписки, и на совместную работу с серверными проектами экосистемы **Ser.Gor**.
-
-В частности, собственный **SG Subscription v1** позволяет передавать в одной подписке как URI-профили, так и AmneziaWG AWG2/AWG3-конфигурации с контролируемым контрактом импорта.
-
----
-
-## Безопасность и приватность
-
-Ключевые принципы проекта:
-
-- не показывать ложное «подключено», если runtime фактически не поднялся;
-- не подменять release signing identity;
-- не подменять произвольно сетевые runtime после установки APK;
-- не читать payload в модуле мониторинга соединений;
-- различать намеренный Direct/Per-App bypass и настоящую ошибку VPN policy;
-- не забирать системный VPN slot только из-за запуска интерфейса.
+SG Mobile развивается как Android-клиент экосистемы проектов **Ser.Gor** и рассчитан как на обычные подписки, так и на использование с собственными SG-серверами.
 
 ---
 
 ## Лицензия
 
-Основной код SG Mobile распространяется по лицензии [MIT](LICENSE).
-
-Сторонние runtime и библиотеки сохраняют собственные лицензии — см. [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+Основной код SG Mobile распространяется по лицензии [MIT](LICENSE).  
+Сторонние движки и библиотеки распространяются на условиях своих лицензий — см. [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 ---
 
 <div align="center">
 
-### SG Mobile
-
-**Один Android-клиент для современной многопротокольной VPN-конфигурации.**
-
-**Ser.Gor**
+**SG Mobile · Android VPN client by Ser.Gor**
 
 </div>

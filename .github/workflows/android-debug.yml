@@ -1,9 +1,6 @@
-name: Android 001 Debug Build
+name: SG Mobile legacy source check
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -43,12 +40,12 @@ jobs:
       - name: Name APK
         shell: bash
         run: |
-          cp app/build/outputs/apk/debug/app-debug.apk              app/build/outputs/apk/debug/001-SG-CLIENT-ANDROID-debug.apk
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/SG-MOBILE-LEGACY-SOURCE-debug.apk
 
       - name: Upload test APK
         uses: actions/upload-artifact@v7
         with:
-          name: 001-SG-CLIENT-ANDROID
-          path: app/build/outputs/apk/debug/001-SG-CLIENT-ANDROID-debug.apk
+          name: SG-MOBILE-LEGACY-SOURCE
+          path: app/build/outputs/apk/debug/SG-MOBILE-LEGACY-SOURCE-debug.apk
           if-no-files-found: error
           retention-days: 14

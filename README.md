@@ -76,20 +76,22 @@
 
 ---
 
-## Скриншоты
+## Интерфейс
 
-> Галерея интерфейса готовится. Скриншоты будут добавлены сюда в ближайшее обновление README.
-
-<!--
-Когда изображения будут добавлены в docs/screenshots/, этот блок заменяется галереей.
-Рекомендуемые имена:
-01-home.png
-02-subscriptions.png
-03-servers.png
-04-routing.png
-05-traffic.png
-06-settings.png
--->
+<div align="center">
+<table>
+<tr>
+<td align="center"><b>Главная</b><br><sub>Состояние VPN, профиль, задержка и быстрые действия</sub></td>
+<td align="center"><b>Маршрутизация</b><br><sub>VPN / Direct / Block и пользовательские правила</sub></td>
+<td align="center"><b>О приложении</b><br><sub>Версия, архитектура и состояние runtime</sub></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/01-home-connected.jpg" width="260" alt="SG Mobile — главная"></td>
+<td><img src="docs/screenshots/02-routing.jpg" width="260" alt="SG Mobile — маршрутизация"></td>
+<td><img src="docs/screenshots/03-about.jpg" width="260" alt="SG Mobile — о приложении"></td>
+</tr>
+</table>
+</div>
 
 ---
 
